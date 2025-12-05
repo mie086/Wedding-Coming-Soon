@@ -20,22 +20,54 @@
             scroll-behavior: smooth;
         }
 
+        /* 1. GANTI KOD BODY (Untuk Background Statik) */
         body {
             margin: 0;
             padding: 0;
             font-family: 'Lato', sans-serif;
-            background-color: var(--bg-color);
+            
+            /* --- SETTING GAMBAR BACKGROUND (2816x1536) --- */
+            /* Pastikan nama fail di sini sama dengan di GitHub */
+            background-image: url('image/bg-wedding.jpg');
+            
+            background-attachment: fixed; /* Gambar statik */
+            
+            /* PENTING: Untuk gambar melintang masuk ke skrin menegak */
+            background-size: cover;       /* Memastikan skrin penuh tanpa herot */
+            background-position: center center; /* Fokuskan tengah gambar */
+            background-repeat: no-repeat;
+            
             color: var(--text-color);
             overflow-x: hidden;
+            padding-bottom: 80px; 
+        }
+
+        /* 2. GANTI KOD CONTAINER (Supaya Tembus Pandang Sikit) */
+        /* Cari .container lama dan ganti dengan yang ini */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            
+            /* Warna Putih dengan ketelusan (0.95 bermaksud 95% legap) */
+            /* Ini membolehkan background bunga nampak sikit-sikit di belakang teks */
+            background: rgba(255, 255, 255, 0.95);
+            
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border-left: 10px solid var(--primary-color);
+            border-right: 10px solid var(--primary-color);
         }
 
         /* --- COVER SECTION (PINTU GERBANG) --- */
         #cover {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1519225421980-715cb0202128?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
-            background-size: cover;
-            background-position: center;
+            
+            /* --- UBAH DI SINI --- */
+            /* Kita buang warna Coklat pekat tadi. */
+            /* Guna gradient nipis supaya teks putih nampak jelas atas gambar bunga */
+            background: rgba(0, 0, 0, 0.3); 
+            
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -44,6 +76,9 @@
             text-align: center;
             color: white;
             transition: transform 1s ease-in-out;
+            
+            /* Pastikan cover tak halang gambar background body */
+            backdrop-filter: blur(2px); /* (Pilihan) Blur sikit background masa mula2 */
         }
 
         #cover.open {
@@ -77,11 +112,20 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: white;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            
+            /* --- UBAH DI SINI --- */
+            /* Tukar 0.95 kepada 0.80 supaya lebih lutsinar */
+            /* Semakin kecil nombor, semakin jelas nampak bunga di belakang */
+            background: rgba(255, 255, 255, 0.80);
+            
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
             overflow: hidden;
             border-left: 10px solid var(--primary-color);
             border-right: 10px solid var(--primary-color);
+            
+            /* Pastikan z-index lebih rendah dari Cover tapi lebih tinggi dari Body */
+            position: relative;
+            z-index: 10;
         }
 
         section {
@@ -187,6 +231,194 @@
 
         button.submit:hover { background: var(--accent-color); color: var(--primary-color); }
 
+        /* --- BOTTOM NAVIGATION MENU --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff; /* Latar Putih */
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border-top: 3px solid var(--accent-color); /* Garis Emas di atas */
+        }
+
+        .nav-item {
+            color: var(--primary-color); /* Warna Ikon Coklat */
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            flex-grow: 1;
+        }
+
+        .nav-item span {
+            font-size: 0.6rem;
+            margin-top: 4px;
+            font-family: 'Lato', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-item:hover, .nav-item:active {
+            color: var(--accent-color); /* Bertukar Emas bila tekan */
+            transform: translateY(-3px);
+        }
+
+        /* Tambah ruang di bawah body supaya footer tak tertutup dek menu */
+        body {
+            padding-bottom: 70px; 
+        }
+
+        /* --- POP-UP MODAL (BOTTOM SHEET) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: flex-end; /* Muncul dari bawah */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-card {
+            background: #fff; /* Latar Putih */
+            width: 100%;
+            max-width: 600px;
+            padding: 30px 25px;
+            border-radius: 25px 25px 0 0; /* Bucu bulat atas */
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.15);
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            text-align: center;
+            position: relative;
+            max-height: 85vh; /* Elak terlalu tinggi */
+            overflow-y: auto; /* Boleh scroll jika isi banyak */
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+        }
+
+        /* Tajuk Modal (Gaya seperti gambar) */
+        .modal-title {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        /* --- BUTANG GAYA "APP" (Putih berbingkai) --- */
+        .btn-group-app {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .btn-app {
+            flex: 1;
+            padding: 12px;
+            background: white;
+            border: 1px solid #333; /* Bingkai Hitam Nipis */
+            border-radius: 12px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+
+        .btn-app:active {
+            background: #f0f0f0;
+            transform: scale(0.98);
+        }
+
+        /* --- LIST HUBUNGI (CONTACT) --- */
+        .contact-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .contact-name {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .contact-actions a {
+            font-size: 1.5rem;
+            margin-left: 15px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        /* Butang Tutup (X) */
+        .close-bar {
+            width: 40px;
+            height: 5px;
+            background: #ddd;
+            border-radius: 5px;
+            margin: -10px auto 20px auto; /* Bar kecil di atas untuk 'drag' */
+        }
+
+        /* --- BUTANG MUZIK --- */
+        #musicIcon {
+            position: fixed;
+            top: 20px; right: 20px; /* Duduk di penjuru atas kanan */
+            width: 50px; height: 50px;
+            background: white;
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            display: none; /* Sembunyi masa mula-mula */
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            z-index: 9998; /* Atas content, bawah cover */
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        /* Animasi Berpusing (Macam Piring Hitam) */
+        .spin {
+            animation: pusing 4s linear infinite;
+        }
+
+        @keyframes pusing {
+            100% { transform: rotate(360deg); }
+        }
+
         /* --- ANIMATIONS (AOS Style) --- */
         .fade-up {
             opacity: 0;
@@ -215,23 +447,31 @@
     </style>
 </head>
 <body>
-
+    
     <div id="cover">
         <div class="cover-content">
             <p style="letter-spacing: 3px; text-transform: uppercase;">Undangan Majlis Perkahwinan</p>
             <h1>Amin & Aishah</h1>
-            <p>25 Disember 2025</p>
+            
+            <p>03 April 2025</p>
+            
             <button class="btn-open" onclick="openInvitation()">Buka Jemputan</button>
         </div>
+    </div>
+
+    <audio id="laguTema" loop>
+        <source src="audio/Download.mp3" type="audio/mp3">
+    </audio>
+
+    <div id="musicIcon" onclick="toggleMusic()">
+        <i class="fas fa-compact-disc"></i>
     </div>
 
     <div class="container">
         
         <section class="fade-up">
             <img src="https://cdn-icons-png.flaticon.com/512/2884/2884635.png" width="60" style="opacity: 0.6; margin-bottom: 20px;">
-            
             <div class="bismillah-rumi">Bismillahirrahmanirrahim</div>
-            
             <p>Assalamualaikum Warahmatullahi Wabarakatuh</p>
             <p>Dengan izin Allah SWT, kami menjemput Dato'/Datin/Tuan/Puan ke majlis meraikan cinta:</p>
         </section>
@@ -244,15 +484,17 @@
             <p>Puteri kepada En. Kassim & Pn. Rohana</p>
         </section>
 
-        <section class="fade-up">
+        <section class="fade-up" id="butiran">
             <h2>Butiran Majlis</h2>
             <p style="font-style: italic;">"Semoga Allah memberkati kamu berdua dan menyatukan kamu dalam kebaikan"</p>
             
-            <div style="margin-top: 30px; font-weight: bold; font-size: 1.2rem;">
-                <i class="far fa-calendar-alt"></i> SABTU, 25 DISEMBER 2025<br><br>
-                <i class="far fa-clock"></i> 11:00 PAGI - 4:00 PETANG
+            <div style="margin-top: 30px; font-weight: bold; font-size: 1.2rem; line-height: 1.8;">
+                <i class="far fa-calendar-alt"></i> KHAMIS, 03 APRIL 2025<br>
+                <span style="font-size: 1rem; font-weight: normal;">(04 Syawal 1446H)</span><br><br>
+                
+                <i class="far fa-clock"></i> 12:00 TENGAH HARI - 6:00 PETANG
             </div>
-
+            
             <div class="countdown" id="countdown">
                 <div class="time-box"><span class="time-val" id="days">00</span><span class="time-label">Hari</span></div>
                 <div class="time-box"><span class="time-val" id="hours">00</span><span class="time-label">Jam</span></div>
@@ -261,44 +503,51 @@
             </div>
         </section>
 
-        <section class="fade-up" style="background-color: #fcf8f0;">
+        <section class="fade-up" style="background-color: #fcf8f0;" id="lokasi-inline">
             <h2>Lokasi Majlis</h2>
             <p>Laman Pengantin, Kampung Damai, Kelantan.</p>
             
-            <br>
-            
-            <div style="display: flex; justify-content: center;">
-                <a href="https://maps.app.goo.gl/WRLiMhuz1gVKJaw38" target="_blank" class="submit" style="text-decoration: none; background-color: #4285F4; color: white; display: flex; align-items: center; gap: 8px; padding: 12px 40px; border-radius: 50px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    <i class="fas fa-map-marker-alt"></i> Buka Google Maps
+            <div style="margin: 20px auto; padding: 20px; border: 1px dashed var(--primary-color); border-radius: 10px; max-width: 80%;">
+                <p style="margin: 0; font-weight: bold;">ALAMAT PENUH:</p>
+                <p style="margin-top: 5px;">No 283 Lorong Tenggiri 3, Penempatan Semula Nelayan Tok Bali, 16700 Pasir Puteh, Kelantan</p>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 10px;">
+                <a href="https://maps.app.goo.gl/WRLiMhuz1gVKJaw38" target="_blank" class="submit" style="text-decoration: none; background-color: #4285F4; color: white; display: flex; align-items: center; gap: 8px; padding: 12px 30px; border-radius: 50px;">
+                    <i class="fas fa-map-marker-alt"></i> Maps
+                </a>
+                <a href="https://waze.com/ul/hw..." target="_blank" class="submit" style="text-decoration: none; background-color: #33CCFF; color: white; display: flex; align-items: center; gap: 8px; padding: 12px 30px; border-radius: 50px;">
+                    <i class="fab fa-waze"></i> Waze
                 </a>
             </div>
         </section>
 
-        <!-- Lokasi -->
-        <section class="fade-up" id="rsvp">
+        <section class="fade-up" id="rsvp-inline">
             <h2>Kehadiran (RSVP)</h2>
             <div class="rsvp-card">
-                <form onsubmit="alert('Terima kasih! RSVP anda telah dihantar (Simulasi Sahaja).'); return false;">
-                    <input type="text" placeholder="Nama Tetamu" required>
-                    <input type="tel" placeholder="Nombor Telefon" required>
-                    <select>
+                <form id="rsvpFormMain" name="google-sheet-main">
+                    <input type="text" name="Nama" placeholder="Nama Tetamu" required>
+                    <input type="tel" name="Telefon" placeholder="Nombor Telefon" required>
+                    <select name="Jumlah" required>
                         <option value="">Jumlah Kehadiran</option>
                         <option value="1">1 Orang</option>
                         <option value="2">2 Orang</option>
                         <option value="3">3 Orang</option>
                         <option value="4">4 Orang</option>
                     </select>
-                    <select>
-                        <option value="hadir">Akan Hadir</option>
-                        <option value="tidak">Tidak Dapat Hadir</option>
+                    <select name="Status" required>
+                        <option value="Hadir">Akan Hadir</option>
+                        <option value="Tidak Hadir">Tidak Dapat Hadir</option>
                     </select>
-                    <textarea placeholder="Ucapan untuk Pengantin" rows="3"></textarea>
-                    <button type="submit" class="submit">Hantar RSVP</button>
+                    <textarea name="Ucapan" placeholder="Ucapan untuk Pengantin" rows="3"></textarea>
+                    
+                    <button type="submit" class="submit" id="btnSubmitMain">Hantar RSVP</button>
                 </form>
+                <p id="msgMain" style="display:none; text-align: center; color: green; margin-top: 10px; font-weight: bold;"></p>
             </div>
         </section>
 
-        <footer style="background: var(--primary-color); color: #D4AF37; padding: 40px 20px; text-align: center;">
+        <footer style="background: var(--primary-color); color: #D4AF37; padding: 40px 20px 100px 20px; text-align: center;">
             <p class="pantun" style="font-style: italic; opacity: 0.8;">
                 Batang serai berumpun-rumpun,<br>
                 Disulam sireh berdaun lebar;<br>
@@ -308,41 +557,298 @@
             <h3>#AminAishahTillJannah</h3>
             <small>Dijana oleh AI Gemini</small>
         </footer>
+    </div>
+
+    <div id="modalKalendar" class="modal-overlay" onclick="closeModal('modalKalendar')">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div class="close-bar" onclick="closeModal('modalKalendar')"></div>
+            
+            <h3 class="modal-title">Khamis, 03 April 2025</h3>
+            <p>12:00 Tengah Hari - 6:00 Petang</p>
+            
+            <div class="btn-group-app">
+                <a href="data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20250403T120000%0ADTEND:20250403T180000%0ASUMMARY:Walimatulurus%20Amin%20%26%20Aishah%0ALOCATION:Laman%20Pengantin%0ADESCRIPTION:Jemputan%20Majlis%0AEND:VEVENT%0AEND:VCALENDAR" download="Majlis.ics" class="btn-app">
+                    <i class="fab fa-apple"></i> Calendar
+                </a>
+                
+                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Walimatulurus+Amin+%26+Aishah&dates=20250403T120000/20250403T180000&details=Jemputan+Majlis&location=Laman+Pengantin" target="_blank" class="btn-app">
+                    <i class="fab fa-google"></i> Calendar
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalHubungi" class="modal-overlay" onclick="closeModal('modalHubungi')">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div class="close-bar" onclick="closeModal('modalHubungi')"></div>
+            <h3 class="modal-title">HUBUNGI</h3>
+            
+            <ul class="contact-list">
+                <li class="contact-item">
+                    <span class="contact-name">Bapa Pengantin (En. Ahmad)</span>
+                    <div class="contact-actions">
+                        <a href="https://wa.me/60123456789"><i class="fab fa-whatsapp"></i></a>
+                        <a href="tel:+60123456789"><i class="fas fa-phone-alt"></i></a>
+                    </div>
+                </li>
+                <li class="contact-item">
+                    <span class="contact-name">Bapa Pengantin (En. Kassim)</span>
+                    <div class="contact-actions">
+                        <a href="https://wa.me/60198765432"><i class="fab fa-whatsapp"></i></a>
+                        <a href="tel:+60198765432"><i class="fas fa-phone-alt"></i></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modalLokasi" class="modal-overlay" onclick="closeModal('modalLokasi')">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div class="close-bar" onclick="closeModal('modalLokasi')"></div>
+            <h3 class="modal-title">LOKASI</h3>
+            
+            <p style="margin-bottom: 20px; line-height: 1.6;">
+                LAMAN PENGANTIN<br>
+                Kampung Damai, 16700<br>
+                Kelantan, Malaysia
+            </p>
+
+            <div class="btn-group-app">
+                <a href="https://maps.app.goo.gl/WRLiMhuz1gVKJaw38" target="_blank" class="btn-app">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Google_Maps_icon_%282020%29.svg" width="20"> Maps
+                </a>
+                <a href="https://waze.com/ul/hw..." target="_blank" class="btn-app">
+                    <i class="fab fa-waze" style="font-size: 1.2rem;"></i> Waze
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalRSVP" class="modal-overlay" onclick="closeModal('modalRSVP')">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div class="close-bar" onclick="closeModal('modalRSVP')"></div>
+            <h3 class="modal-title">RSVP & UCAPAN</h3>
+            
+            <form id="rsvpForm" name="submit-to-google-sheet" style="text-align: left;">
+                <input type="text" name="Nama" placeholder="Nama Tetamu" required style="background: #f9f9f9;">
+                <input type="tel" name="Telefon" placeholder="Nombor Telefon" required style="background: #f9f9f9;">
+                <select name="Jumlah" required style="background: #f9f9f9;">
+                    <option value="">Jumlah Kehadiran</option>
+                    <option value="1">1 Orang</option>
+                    <option value="2">2 Orang</option>
+                    <option value="3">3 Orang</option>
+                    <option value="4">4 Orang</option>
+                </select>
+                <select name="Status" required style="background: #f9f9f9;">
+                    <option value="Hadir">Akan Hadir</option>
+                    <option value="Tidak Hadir">Tidak Dapat Hadir</option>
+                </select>
+                <textarea name="Ucapan" placeholder="Ucapan untuk Pengantin" rows="3" style="background: #f9f9f9;"></textarea>
+                
+                <button type="submit" class="submit" id="btnSubmit" style="width: 100%; margin-top: 10px; border-radius: 12px;">Hantar RSVP</button>
+            </form>
+            <p id="statusMessage" style="display:none; text-align: center; color: green; margin-top: 10px; font-weight: bold;"></p>
+        </div>
+    </div>
+
+
+    <nav class="bottom-nav">
+        <a href="javascript:void(0)" onclick="openModal('modalKalendar')" class="nav-item">
+            <i class="far fa-calendar-alt"></i>
+            <span>Majlis</span>
+        </a>
+
+        <a href="javascript:void(0)" onclick="openModal('modalHubungi')" class="nav-item">
+            <i class="fas fa-phone-alt"></i>
+            <span>Hubungi</span>
+        </a>
+
+        <a href="javascript:void(0)" onclick="keRumah()" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Utama</span>
+        </a>
+
+        <a href="javascript:void(0)" onclick="openModal('modalLokasi')" class="nav-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Lokasi</span>
+        </a>
+
+        <a href="javascript:void(0)" onclick="openModal('modalRSVP')" class="nav-item">
+            <i class="fas fa-envelope-open-text"></i>
+            <span>RSVP</span>
+        </a>
+    </nav>
 
     </div>
 
-    <script>
-        // 1. FUNGSI BUKA JEMPUTAN (Tanpa Muzik)
+<script>
+        // ==========================================
+        // 1. SETUP PEMBOLEHUBAH & LAGU
+        // ==========================================
+        var audio = document.getElementById("laguTema");
+        var musicBtn = document.getElementById("musicIcon");
+        var isPlaying = false;
+
         function openInvitation() {
-            document.getElementById('cover').classList.add('open');
-            // Trigger animations
+            var cover = document.getElementById('cover');
+            cover.classList.add('open');
+            
+            // Mainkan Lagu
+            if (audio) {
+                audio.play().catch(function(error) {
+                    console.log("Autoplay blocked:", error);
+                });
+                isPlaying = true;
+            }
+
+            // Tunjuk Butang Muzik
+            if (musicBtn) {
+                musicBtn.style.display = "flex";
+                musicBtn.classList.add("spin");
+            }
+            
             initAnimations();
         }
 
-        // 2. COUNTDOWN TIMER LOGIC
-        const weddingDate = new Date("Dec 25, 2025 11:00:00").getTime();
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                musicBtn.classList.remove("spin");
+                musicBtn.style.opacity = "0.5";
+                isPlaying = false;
+            } else {
+                audio.play();
+                musicBtn.classList.add("spin");
+                musicBtn.style.opacity = "1";
+                isPlaying = true;
+            }
+        }
 
+        // ==========================================
+        // 2. FUNGSI POP-UP MODAL (FINAL FIX)
+        // ==========================================
+        function openModal(modalID) {
+            // Tutup semua modal LAIN (kecuali yang kita nak buka)
+            document.querySelectorAll('.modal-overlay').forEach(el => {
+                if (el.id !== modalID) { 
+                    el.classList.remove('active');
+                    setTimeout(() => { 
+                        if(!el.classList.contains('active')) {
+                            el.style.display = 'none'; 
+                        }
+                    }, 300);
+                }
+            });
+
+            // Buka modal sasaran
+            const modal = document.getElementById(modalID);
+            if (modal) {
+                modal.style.display = 'flex';
+                setTimeout(() => {
+                    modal.classList.add('active');
+                }, 10);
+            }
+        }
+
+        function closeModal(modalID) {
+            const modal = document.getElementById(modalID);
+            if (modal) {
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        // [PENTING] FUNGSI BARU: KLIK LUAR UNTUK TUTUP
+        // Ini akan automatik kesan bila anda tekan kawasan gelap
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                // Hantar ID modal tersebut ke fungsi closeModal
+                closeModal(event.target.id);
+            }
+        }
+
+        // ==========================================
+        // 3. COUNTDOWN TIMER
+        // ==========================================
+        const weddingDate = new Date("Apr 03, 2025 12:00:00").getTime();
         const timer = setInterval(function() {
             const now = new Date().getTime();
             const distance = weddingDate - now;
-
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            document.getElementById("days").innerHTML = days < 10 ? "0" + days : days;
-            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+            if (document.getElementById("days")) {
+                document.getElementById("days").innerHTML = days < 10 ? "0" + days : days;
+                document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
+                document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+                document.getElementById("seconds").innerHTML = seconds < 10 ? "0" + seconds : seconds;
+            }
 
             if (distance < 0) {
                 clearInterval(timer);
-                document.getElementById("countdown").innerHTML = "Majlis Sedang Berlangsung!";
+                if (document.getElementById("countdown")) {
+                    document.getElementById("countdown").innerHTML = "Majlis Sedang Berlangsung!";
+                }
             }
         }, 1000);
 
-        // 3. SCROLL ANIMATION (Intersection Observer)
+        // ==========================================
+        // 4. GOOGLE SHEET RSVP SCRIPT (HYBRID)
+        // ==========================================
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyfY3RROEvCji-SuzA2RSPFF5Lfv7nmnWk8aUAL-ujedKcjYAkBHh3aInjbIv-PW5Vt/exec';
+
+        function setupForm(formId, btnId, msgId) {
+            const form = document.getElementById(formId);
+            const btn = document.getElementById(btnId);
+            const msg = document.getElementById(msgId);
+
+            if (form) {
+                form.addEventListener('submit', e => {
+                    e.preventDefault();
+                    const originalBtnText = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Hantar...';
+                    btn.disabled = true;
+
+                    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                        .then(response => {
+                            if (msg) {
+                                msg.style.display = 'block';
+                                msg.innerHTML = "Alhamdulillah! Kehadiran direkodkan.";
+                                msg.style.color = "green";
+                                setTimeout(() => { msg.style.display = 'none'; }, 5000);
+                            }
+                            form.reset();
+                            btn.innerHTML = originalBtnText;
+                            btn.disabled = false;
+                            
+                            if(formId === 'rsvpForm') {
+                                setTimeout(() => { closeModal('modalRSVP'); }, 2000);
+                            }
+                        })
+                        .catch(error => {
+                            if (msg) {
+                                msg.style.display = 'block';
+                                msg.innerHTML = "Gagal. Cuba lagi.";
+                                msg.style.color = "red";
+                            }
+                            console.error('Error!', error.message);
+                            btn.innerHTML = originalBtnText;
+                            btn.disabled = false;
+                        });
+                });
+            }
+        }
+
+        setupForm('rsvpForm', 'btnSubmit', 'statusMessage');
+        setupForm('rsvpFormMain', 'btnSubmitMain', 'msgMain');
+
+        // ==========================================
+        // 5. ANIMASI SCROLL
+        // ==========================================
         function initAnimations() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -354,6 +860,23 @@
 
             document.querySelectorAll('.fade-up').forEach((el) => {
                 observer.observe(el);
+            });
+        }
+
+        // ==========================================
+        // 6. FUNGSI BUTANG HOME (RUMAH)
+        // ==========================================
+        function keRumah() {
+            // 1. Tutup semua modal/pop-up jika ada yang terbuka
+            document.querySelectorAll('.modal-overlay').forEach(el => {
+                el.classList.remove('active');
+                setTimeout(() => { el.style.display = 'none'; }, 300);
+            });
+
+            // 2. Skrol ke paling atas dengan lembut
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
         }
     </script>
