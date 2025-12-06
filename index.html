@@ -222,24 +222,53 @@
             margin-top: 5px;
         }
     
-        /* RSVP FORM */
+        /* =========================================
+           RSVP FORM (GLASSMORPHISM / TRANSPARENT)
+           ========================================= */
         .rsvp-card {
-            background-color: rgba(255, 255, 255, 0.6);
+            /* Latar putih tetapi 20% sahaja (sangat transparent) */
+            background: rgba(255, 255, 255, 0.2);
+            
             padding: 20px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(3px); 
+            border-radius: 15px;
+            
+            /* Bingkai putih nipis untuk nampak bentuk kotak */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            
+            /* Efek kabur di belakang kotak (PENTING untuk readability) */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* Untuk pengguna iPhone/Safari */
+            
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Bayang lembut */
         }
-    
+        
         input, select, textarea {
             width: 100%;
             padding: 12px;
             margin: 8px 0;
-            border: 1px solid #ddd;
+            
+            /* Input field sedikit lebih terang dari background card */
+            background: rgba(255, 255, 255, 0.4); 
+            
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 8px;
             font-family: inherit;
-            background-color: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(2px); /* optional */
+            color: var(--primary-color); /* Pastikan tulisan warna gelap/coklat */
+            transition: all 0.3s ease;
+        }
+        
+        /* Warna placeholder (teks 'Nama Tetamu' dsb) */
+        ::placeholder {
+            color: #4a4a4a; /* Kelabu gelap supaya nampak atas background cerah */
+            opacity: 0.7;
+        }
+        
+        /* Bila pengguna tekan kotak untuk menaip */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.8); /* Jadi lebih putih bila menaip */
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
         }
     
         button.submit {
@@ -257,20 +286,21 @@
         button.submit:hover { background: var(--accent-color); color: var(--primary-color); }
     
         /* =========================================
-           7. BOTTOM NAVIGATION (FIXED)
+           7. BOTTOM NAVIGATION (GLASS STYLE)
            ========================================= */
         .bottom-nav {
             position: fixed;
             bottom: 0;
-            
-            /* Centerkan Menu */
+        
             left: 50%;
             transform: translateX(-50%);
-            
+        
             width: 100%;
             max-width: 450px; 
-            
-            background-color: #ffffff;
+        
+            /* Gantikan yang asal: background-color: #ffffff; */
+            background-color: rgba(253, 251, 247, 0.7); /* hampir sama dengan bg-color tapi transparent */
+        
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
@@ -548,7 +578,7 @@
             </div>
         </section>
 
-        <footer style="background: var(--primary-color); color: #D4AF37; padding: 40px 20px 100px 20px; text-align: center;">
+        <footer style="background-color: rgba(93, 64, 55, 0.8); color: #D4AF37; padding: 40px 20px 100px 20px; text-align: center;">
             <p class="pantun" style="font-style: italic; opacity: 0.8;">
                 Batang serai berumpun-rumpun,<br>
                 Disulam sireh berdaun lebar;<br>
