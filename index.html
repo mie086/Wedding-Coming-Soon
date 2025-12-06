@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Walimatulurus: Amin & Aishah</title>
+    <title>Walimatulurus: fahmie & thaqirah</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -178,25 +178,52 @@
             margin: 20px 0;
         }
 
-        /* --- COUNTDOWN TIMER --- */
+        /* --- COUNTDOWN (KIRI KE KANAN) --- */
         .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 0;
+            display: flex;              /* Wajib: Jadikan susunan fleksibel */
+            flex-direction: row;        /* Wajib: Kiri ke Kanan */
+            justify-content: center;    /* Duduk di tengah */
+            align-items: center;
+            gap: 10px;                  /* Jarak antara kotak */
+            margin: 20px auto;
+            width: 100%;
+            max-width: 600px;
         }
-
+        
         .time-box {
-            background: var(--primary-color);
-            color: var(--accent-color);
-            padding: 15px;
-            border-radius: 8px;
+            background: transparent; /* Tiada background */
+            border: none;            /* Tiada bingkai */
+            color: var(--primary-color);
+            text-align: center;
             min-width: 70px;
-            border: 1px solid var(--accent-color);
+            flex: 1;
         }
-
-        .time-val { font-size: 1.5rem; font-weight: bold; display: block; }
-        .time-label { font-size: 0.8rem; text-transform: uppercase; }
+        
+        /* Garisan pemisah antara nombor */
+        .time-box:not(:last-child)::after {
+            content: ":";
+            position: absolute;
+            right: -15px;
+            top: 5px;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            opacity: 0.7;
+        }
+        
+        .time-val {
+            font-family: 'Great Vibes', cursive; /* Nombor gaya tulisan tangan */
+            font-size: 2.5rem;
+            display: block;
+            line-height: 1;
+        }
+        
+        .time-label {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
 
         /* --- RSVP FORM --- */
         .rsvp-card {
@@ -458,9 +485,9 @@
     <div id="cover">
         <div class="cover-content">
             <p style="letter-spacing: 3px; text-transform: uppercase;">Undangan Majlis Perkahwinan</p>
-            <h1>Amin & Aishah</h1>
+            <h1>fahmie & thaqirah</h1>
             
-            <p>03 April 2025</p>
+            <p>30 Mei 2026</p>
             
             <button class="btn-open" onclick="openInvitation()">Buka Jemputan</button>
         </div>
@@ -484,11 +511,11 @@
         </section>
 
         <section class="fade-up" style="background-color: #fcf8f0;">
-            <div class="couple-names">Muhammad Amin</div>
-            <p>Putera kepada En. Ahmad & Pn. Fatimah</p>
+            <div class="couple-names">Muhammad Fahmie</div>
+            <p>Putera kepada </p>
             <div style="font-size: 2rem; color: var(--accent-color);">&</div>
-            <div class="couple-names">Nur Aishah</div>
-            <p>Puteri kepada En. Kassim & Pn. Rohana</p>
+            <div class="couple-names">Siti Thaqirah</div>
+            <p>Puteri kepada </p>
         </section>
 
         <section class="fade-up" id="butiran">
@@ -496,12 +523,14 @@
             <p style="font-style: italic;">"Semoga Allah memberkati kamu berdua dan menyatukan kamu dalam kebaikan"</p>
             
             <div style="margin-top: 30px; font-weight: bold; font-size: 1.2rem; line-height: 1.8;">
-                <i class="far fa-calendar-alt"></i> KHAMIS, 03 APRIL 2025<br>
+                <i class="far fa-calendar-alt"></i> SABTU, 30 MEI 2026<br>
                 <span style="font-size: 1rem; font-weight: normal;">(04 Syawal 1446H)</span><br><br>
                 
                 <i class="far fa-clock"></i> 12:00 TENGAH HARI - 6:00 PETANG
             </div>
             
+            <h3 class="countdown-title">Menuju Hari Bahagia:</h3>
+           
             <div class="countdown" id="countdown">
                 <div class="time-box"><span class="time-val" id="days">00</span><span class="time-label">Hari</span></div>
                 <div class="time-box"><span class="time-val" id="hours">00</span><span class="time-label">Jam</span></div>
@@ -561,8 +590,8 @@
                 Andai ada silap dan ampun,<br>
                 Jari disusun maaf dipinta.
             </p>
-            <h3>#AminAishahTillJannah</h3>
-            <small>Dijana oleh AI Gemini</small>
+            <h3>#fahmiethaqirahTillJannah</h3>
+            <small>mie086</small>
         </footer>
     </div>
 
@@ -570,15 +599,15 @@
         <div class="modal-card" onclick="event.stopPropagation()">
             <div class="close-bar" onclick="closeModal('modalKalendar')"></div>
             
-            <h3 class="modal-title">Khamis, 03 April 2025</h3>
+            <h3 class="modal-title">Khamis, 30 MEI 2026</h3>
             <p>12:00 Tengah Hari - 6:00 Petang</p>
             
             <div class="btn-group-app">
-                <a href="data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20250403T120000%0ADTEND:20250403T180000%0ASUMMARY:Walimatulurus%20Amin%20%26%20Aishah%0ALOCATION:Laman%20Pengantin%0ADESCRIPTION:Jemputan%20Majlis%0AEND:VEVENT%0AEND:VCALENDAR" download="Majlis.ics" class="btn-app">
+                <a href="data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20260530T120000%0ADTEND:20260530T180000%0ASUMMARY:Walimatulurus%20fahmie%20%26%20thaqirah%0ALOCATION:Laman%20Pengantin%0ADESCRIPTION:Jemputan%20Majlis%0AEND:VEVENT%0AEND:VCALENDAR" download="Majlis.ics" class="btn-app">
                     <i class="fab fa-apple"></i> Calendar
                 </a>
                 
-                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Walimatulurus+Amin+%26+Aishah&dates=20250403T120000/20250403T180000&details=Jemputan+Majlis&location=Laman+Pengantin" target="_blank" class="btn-app">
+                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Walimatulurus+fahmie+%26+thaqirah&dates=20260530T120000/20260530T180000&details=Jemputan+Majlis&location=Laman+Pengantin" target="_blank" class="btn-app">
                     <i class="fab fa-google"></i> Calendar
                 </a>
             </div>
@@ -688,7 +717,7 @@
 
     </div>
 
-<script>
+    <script>
         // ==========================================
         // 1. SETUP PEMBOLEHUBAH & LAGU
         // ==========================================
@@ -779,7 +808,8 @@
         // ==========================================
         // 3. COUNTDOWN TIMER
         // ==========================================
-        const weddingDate = new Date("Apr 03, 2025 12:00:00").getTime();
+        // Format: YYYY-MM-DDTHH:mm:ss+Offset
+        const weddingDate = new Date("2026-05-30T00:00:00+08:00").getTime();
         const timer = setInterval(function() {
             const now = new Date().getTime();
             const distance = weddingDate - now;
